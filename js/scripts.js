@@ -49,121 +49,146 @@ function showDie(roll) {
 
 
 $(document).ready(function(){
-  //Create player objects
+//Create player objects
   var player1 = new Player(prompt("Player 1 enter your name: "), 1, 0);
   var player2 = new Player(prompt("Player 2 enter your name: "), 2, 0);
 
-  //Display player names on screen
+//Display player names on screen
   $("#player1Name").text(player1.playerName);
   $("#player2Name").text(player2.playerName);
 
-  //Create array to hold player objects
+//Create array to hold player objects
   var players = [player1, player2];
 
-  //Variable to hold number of players
+//Variable to hold number of players
   var numberOfPlayers = 2;
 
-  //Initial variables player scores
+//Initial variables player scores
   var playerTotal1 = 0;
-var playerTotal2 = 0;
+  var playerTotal2 = 0;
 
-  //Variables to track current player and turn score
+//Variables to track current player and turn score
   var currentPlayerIndex = 0;
   var turnTotal = 0;
 
-  //Display starting active player and highlight their scorebox
-  // $("#activePlayer").text(players[currentPlayerIndex].playerName);
+//Display starting active player and highlight their scorebox
+// $("#activePlayer").text(players[currentPlayerIndex].playerName);
+
   $("#player" + players[currentPlayerIndex].playerNumber + "Box").addClass("well2");
 
 /* Roll button click */
   $("button#roll").click(function(){
 
-    //Roll die
-       var dieRoll = rollD6();
-       //Display roll result to dieRoll span
-       $("#dieRoll").text(dieRoll);
-       showDie(dieRoll);
+//Roll die
 
-       //Add dieRoll to turnTotal unless a 1 is rolled
-       if (dieRoll != 1) {
-         //Add roll to turn total
-         turnTotal += dieRoll;
+var dieRoll = rollD6();
 
-       } else {
+//Display roll result to dieRoll span
+$("#dieRoll").text(dieRoll);
+showDie(dieRoll);
 
-         //Display result to player1Total or player2Total span
-         $("#player" + players[currentPlayerIndex].playerNumber + "Total").text(players[currentPlayerIndex].score);
+//Add dieRoll to turnTotal unless a 1 is rolled
 
-         //Switch to next player's turn and unhighlight their scorebox
-         $("#player" + players[currentPlayerIndex].playerNumber + "Box").removeClass("well2")
-         currentPlayerIndex = switchPlayer(currentPlayerIndex, numberOfPlayers);
+if (dieRoll != 1) {
 
+//Add roll to turn total
+ turnTotal += dieRoll;
+  }
+else {
 
-         //Display new current player
-         $("#activePlayer").text(players[currentPlayerIndex].playerName);
-         $("#player" + players[currentPlayerIndex].playerNumber + "Box").addClass("well2");
+//Display result to player1Total or player2Total span
 
-         //Reset turn total
-         turnTotal = 0;
-       }
-       //Display result to turnTotal span
-          $("#turnTotal").text(turnTotal);
+ $("#player" + players[currentPlayerIndex].playerNumber + "Total").text(players[currentPlayerIndex].score);
 
-        });
+//Switch to next player's turn and unhighlight their scorebox
 
-      /*  Hold button click  */
-        $("button#hold").click(function(){
+$("#player" + players[currentPlayerIndex].playerNumber + "Box").removeClass("well2")
+  currentPlayerIndex = switchPlayer(currentPlayerIndex, numberOfPlayers);
 
-          //Add turn total to player score
-          players[currentPlayerIndex].scorePoints(turnTotal);
+//Display new current player
 
-          //Display result to player1Total or player2Total span
-          $("#player" + players[currentPlayerIndex].playerNumber + "Total").text(players[currentPlayerIndex].score);
-          // check for win condition
-          if (players[currentPlayerIndex].score > 99) {
-            //Display end game message
-            $("#gameEnd").show();
-          } else {
-            //Clear counters
-            $("#dieRoll, #turnTotal").empty();
-          }
+$("#activePlayer").text(players[currentPlayerIndex].playerName);
+$("#player" + players[currentPlayerIndex].playerNumber + "Box").addClass("well2");
 
-          //Switch to next player's turn and unhighlight their scorebox
-          $("#player" + players[currentPlayerIndex].playerNumber + "Box").removeClass("well2")
-          currentPlayerIndex = switchPlayer(currentPlayerIndex, numberOfPlayers);
+//Reset turn total
 
+turnTotal = 0;
+}
 
-      //Display new current player and highlight their scorebox
-          // $("#activePlayer").text(players[currentPlayerIndex].playerName);
-          $("#player" + players[currentPlayerIndex].playerNumber + "Box").addClass("well2");
+ //Display result to turnTotal span
 
-          //Reset turnTotal
-          turnTotal = 0;
+$("#turnTotal").text(turnTotal);
 
+});
 
+/*  Hold button click  */
 
-        });
+$("button#hold").click(function(){
 
-      /*  Reset button */
+//Add turn total to player score
 
-        $("button#reset").click(function(){
-          //Reset player scores to 0
-          players.forEach(function(player){
-            player.resetScore();
-          });
-          //assigns turn total to 0
-          turnTotal = 0;
+players[currentPlayerIndex].scorePoints(turnTotal);
 
-          //Remove highlight to prepare for new game
-          $("#player" + players[currentPlayerIndex].playerNumber + "Box").removeClass("well2")
+//Display result to player1Total or player2Total span
 
-          //Reset currentPlayerIndex and highlight current player again
-          currentPlayerIndex = 0;
-          $("#player" + players[currentPlayerIndex].playerNumber + "Box").addClass("well2");
+$("#player" + players[currentPlayerIndex].playerNumber + "Total").text(players[currentPlayerIndex].score);
 
-          //clears values in display fields
-          $("#dieRoll, #turnTotal, #player1Total, #player2Total").empty();
+// check for win condition
 
-        });
+if (players[currentPlayerIndex].score > 99) {
 
-      });
+//Display end game message
+
+$("#gameEnd").show();
+} else {
+
+//Clear counters
+
+$("#dieRoll, #turnTotal").empty();
+}
+
+//Switch to next player's turn and unhighlight their scorebox
+
+$("#player" + players[currentPlayerIndex].playerNumber + "Box").removeClass("well2")
+    currentPlayerIndex = switchPlayer(currentPlayerIndex, numberOfPlayers);
+
+//Display new current player and highlight their scorebox
+// $("#activePlayer").text(players[currentPlayerIndex].playerName);
+
+$("#player" + players[currentPlayerIndex].playerNumber + "Box").addClass("well2");
+
+//Reset turnTotal
+
+turnTotal = 0;
+
+});
+
+/*  Reset button */
+
+$("button#reset").click(function(){
+
+//Reset player scores to 0
+
+players.forEach(function(player){
+player.resetScore();
+});
+
+//assigns turn total to 0
+turnTotal = 0;
+
+//Remove highlight to prepare for new game
+
+$("#player" + players[currentPlayerIndex].playerNumber + "Box").removeClass("well2")
+
+//Reset currentPlayerIndex and highlight current player again
+
+currentPlayerIndex = 0;
+
+$("#player" + players[currentPlayerIndex].playerNumber + "Box").addClass("well2");
+
+//clears values in display fields
+
+$("#dieRoll, #turnTotal, #player1Total, #player2Total").empty();
+
+  });
+});
