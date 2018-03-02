@@ -5,12 +5,7 @@ h1 {
 
 h2 {
   text-align: center;
-  color: blue;
-}
-
-h3 {
-  text-align: center;
-  color: blue;
+  color: white;
 }
 
 h4 {
@@ -19,7 +14,8 @@ h4 {
 }
 
 h5 {
-  color: yellow;
+  color: white;
+  text-align: center;
 }
 
 body {
